@@ -1,4 +1,5 @@
 let bg = '#ED4D37'
+let n = 0
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
   background(bg);
@@ -8,11 +9,15 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   angleMode(DEGREES);
   textSize(24);
   noStroke();
-  fill(100,40,40)
-  let eyex = 0
-  let eyey = 0
+  fill(30,20,20)
+  let eyex = map(other,0,100,-10,10)
+  let eyey = map(bass,0,100,-20,30)
+  n = map(vocal,0,100,-10,10)
   // HORIZON
     rect(width/2,height/7*6.5,width,height/7);
+    for(let i = 1; i<11; i++){
+     square(width/20*2*i-width/20,height-width/20+n*i,width/10)
+    }
   // HORIZON;
 
   // CLOUDS BACKGROUND
@@ -82,15 +87,16 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
   // EYE  
     push();
+      push();
       translate(eyex,eyey);
         eye();
-
+      pop();
       push();
         fill(110,20,20)
         scale(0.4);
           cloud3(-1,1640,640); // CLOUD INFRONT OF EYE BUT BEHIND LASER
       pop();
-
+      translate(eyex,eyey);
       // LASER
         for (let i = 11.4; i<=35.5; i+=5.95){
           if (song.currentTime()>=i) { // STARTS AT 11.5, REPEATS EVERY 6 SECONDS
@@ -98,8 +104,8 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
             push();
             let laserWidth = random(5,15)
-            let laserX = 0
-            let laserY = 550
+            let laserX = map(song.currentTime(),i,i+0.4,-550,550)
+            let laserY = 525
             stroke(random(100,255),0,random(150,255));
               laser(laserX, laserY, laserWidth,laserWidth);
             stroke(255);
@@ -114,8 +120,8 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
             push();
             let laserWidth = random(5,15)
-            let laserX = 0
-            let laserY = 400
+            let laserX = map(song.currentTime(),i,i+0.4,-550,550)
+            let laserY = 525
             stroke(random(100,255),0,random(150,255));
               laser(laserX, laserY, laserWidth,laserWidth);
             stroke(255);
@@ -130,8 +136,8 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
             push();
             let laserWidth = random(5,15)
-            let laserX = 0
-            let laserY = 400
+            let laserX = map(song.currentTime(),i,i+0.4,-550,550)
+            let laserY = 525
             stroke(random(100,255),0,random(150,255));
               laser(laserX, laserY, laserWidth,laserWidth);
             stroke(255);
@@ -145,8 +151,8 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
           push();
           let laserWidth = random(5,15)
-          let laserX = 0
-          let laserY = 400
+          let laserX = map(song.currentTime(),i,i+0.4,-550,550)
+          let laserY = 525
           stroke(random(100,255),0,random(150,255));
             laser(laserX, laserY, laserWidth,laserWidth);
           stroke(255);
@@ -159,8 +165,8 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 
           push();
           let laserWidth = random(5,15)
-          let laserX = 0
-          let laserY = 400
+          let laserX = map(song.currentTime(),i,i+0.4,-550,550)
+          let laserY = 525
           stroke(random(100,255),0,random(150,255));
             laser(laserX, laserY, laserWidth,laserWidth);
           stroke(255);
@@ -286,7 +292,7 @@ function eye(){
 
 function cloud1(orient,cloudx,cloudy) {
   push();
-    translate(cloudx,cloudy);
+    translate(cloudx,cloudy+n);
     circle(0,0,50);
     rect(orient*175,10,350,30);
     circle(orient*350,10,30);
@@ -309,7 +315,7 @@ function cloud1(orient,cloudx,cloudy) {
 
 function cloud2(orient,cloudx,cloudy) {
   push();
-    translate(cloudx,cloudy);
+    translate(cloudx+n,cloudy);
       circle(0,10,30);
       rect(orient*300,10,600,30);
       circle(orient*600,10,30);
@@ -340,7 +346,7 @@ function cloud2(orient,cloudx,cloudy) {
 
 function cloud3(orient,cloudx,cloudy) {
   push();
-    translate(cloudx,cloudy);
+    translate(cloudx-n,cloudy);
       circle(0,10,30);
       rect(orient*140,10,280,30);
       circle(orient*280,-10,70);
